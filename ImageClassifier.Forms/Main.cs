@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using ImageClassifier.Forms.MapReduce;
+using System;
+using System.Windows.Forms;
 
 namespace ImageClassifier.Forms
 {
@@ -25,11 +27,13 @@ namespace ImageClassifier.Forms
             public string Size { get; set; }
         }
 
-        private void btn_generateImages_Click(object sender, System.EventArgs e)
+        private void btn_generateImages_Click(object sender, EventArgs e)
         {
             if (validateForm())
             {
-
+                MapReduceStart mapReduceStart = new MapReduceStart(Convert.ToInt32(num_noImages.Value), Convert.ToInt32(cb_imageSize.SelectedValue));
+                mapReduceStart.Show();
+                Hide();
             }
         }
 

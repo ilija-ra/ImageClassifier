@@ -9,3 +9,15 @@ C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\projec
 C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.exe
 C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.pdb
 C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.Main.resources
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.AssemblyReference.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.SuggestedBindingRedirects.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.Main.resources
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.MapReduce.MapReduceStart.resources
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.Properties.Resources.resources
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.GenerateResource.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.CoreCompileInputs.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.exe.config
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.exe
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.pdb
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.exe
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.pdb
