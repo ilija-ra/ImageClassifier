@@ -1,0 +1,11 @@
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.exe.config
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.exe
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.pdb
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.AssemblyReference.cache
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.SuggestedBindingRedirects.cache
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.Properties.Resources.resources
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.GenerateResource.cache
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.csproj.CoreCompileInputs.cache
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.exe
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.pdb
+C:\Master materijali\Cloud racunarstvo u infrastrukturnim sistemima\vezbe\project\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.Main.resources
