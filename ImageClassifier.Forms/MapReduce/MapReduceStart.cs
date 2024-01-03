@@ -1,79 +1,171 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ImageClassifier.Forms.MapReduce
 {
     public partial class MapReduceStart : Form
     {
-        private readonly int _numberOfImages;
-        private readonly int _imageSize;
-
+        private readonly int _height;
+        private readonly int _numRows;
+        private readonly List<Bitmap> _bitmaps = new List<Bitmap>();
         public MapReduceStart(int numberOfImages, int imageSize)
         {
             InitializeComponent();
 
-            _numberOfImages = numberOfImages;
-            _imageSize = imageSize;
-
-            generateRandomImages();
-        }
-
-        //TODO: generateRandomImages check what code below does
-        private void generateRandomImages()
-        {
-            //for (int i = 0; i < _numberOfImages; i++)
-            //{
-            //    Bitmap bitmap = new Bitmap(_imageSize, _imageSize);
-            //    Graphics bitmapGraphics = Graphics.FromImage(bitmap);
-            //}
-            int numRows = 3;
-            int numCols = 3;
-
-            // Create a TableLayoutPanel
-            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
-            tableLayoutPanel.Dock = DockStyle.Fill;
-            tableLayoutPanel.RowCount = numRows;
-            tableLayoutPanel.ColumnCount = numCols;
-
-            // Add PictureBox controls to the TableLayoutPanel
-            for (int row = 0; row < numRows; row++)
+            switch (imageSize)
             {
-                for (int col = 0; col < numCols; col++)
-                {
-                    PictureBox pictureBox = new PictureBox();
-                    pictureBox.Dock = DockStyle.Fill;
-                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-
-                    // Generate your bitmap dynamically
-                    Bitmap generatedBitmap = GenerateImage(row, col); // Adjust this based on your logic
-
-                    // Set the generated bitmap to the PictureBox
-                    pictureBox.Image = generatedBitmap;
-
-                    // Add click event handler if needed
-                    // pictureBox.Click += pictureBox_Click;
-
-                    tableLayoutPanel.Controls.Add(pictureBox, col, row);
-                }
+                case 1:
+                    _height = 50;
+                    break;
+                case 2:
+                    _height = 75;
+                    break;
+                case 3:
+                    _height = 100;
+                    break;
+                case 4:
+                    _height = 200;
+                    break;
+                default:
+                    break;
             }
 
-            // Add the TableLayoutPanel to the form
-            this.Controls.Add(tableLayoutPanel);
+            _numRows = numberOfImages;
+
+            InitializeLayout();
         }
 
-        private Bitmap GenerateImage(int row, int col)
+        private void InitializeLayout()
         {
-            // Replace this with your logic to generate images dynamically
-            // For demonstration purposes, creating a simple colored bitmap
-            Bitmap bitmap = new Bitmap(100, 100);
+            var tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.Dock = DockStyle.Left;
+            tableLayoutPanel.AutoScroll = true;
+            tableLayoutPanel.RowCount = _numRows;
+            tableLayoutPanel.ColumnCount = 1;
+            tableLayoutPanel.BackColor = Color.White;
+            tableLayoutPanel.AutoSize = true;
+
+            var vScrollBar = new VScrollBar();
+            vScrollBar.Dock = DockStyle.Right;
+            vScrollBar.Scroll += (sender, e) => tableLayoutPanel.VerticalScroll.Value = vScrollBar.Value;
+
+            Controls.Add(tableLayoutPanel);
+            Controls.Add(vScrollBar);
+
+            generateRandomImages(tableLayoutPanel, vScrollBar);
+        }
+
+        private void generateRandomImages(TableLayoutPanel tableLayoutPanel, VScrollBar vScrollBar)
+        {
+            for (int row = 0; row < _numRows; row++)
+            {
+                PictureBox pictureBox = new PictureBox()
+                {
+                    Dock = DockStyle.Fill,
+                    SizeMode = PictureBoxSizeMode.Zoom
+                };
+                //pictureBox.Dock = DockStyle.Fill;
+                //pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBox.Click += PictureBox_Click;
+
+                Bitmap generatedBitmap = GenerateImage(_height, _height);
+
+                _bitmaps.Add(generatedBitmap);
+
+                pictureBox.Image = generatedBitmap;
+
+                tableLayoutPanel.Controls.Add(pictureBox, 1, row);
+            }
+
+            vScrollBar.Maximum = tableLayoutPanel.VerticalScroll.Maximum;
+        }
+
+        //private void Funcc()
+        //{
+        //    foreach (var bitmap in _bitmaps)
+        //    {
+        //        for (int i = 0; i < bitmap.Width; i++)
+        //        {
+        //            for (int j = 0; j < bitmap.Height; j++)
+        //            {
+        //                Color pixelColor = bitmap.GetPixel(i, j);
+
+        //                // Do something with the pixelColor, e.g., access pixelColor.R, pixelColor.G, pixelColor.B
+        //            }
+        //        }
+        //    }
+
+        //    // Map step: Split the input into key-value pairs (word, 1) in parallel
+        //    var mappedResults = _bitmaps
+        //        .AsParallel()
+        //        .GroupBy(word => word)
+        //        .Select(group => new KeyValuePair<string, int>(group.Key, group.Count()));
+
+        //    // Reduce step: Aggregate the values for each key in parallel
+        //    var reducedResults = mappedResults
+        //        .GroupBy(pair => pair.Key)
+        //        .AsParallel()
+        //        .Select(group => new KeyValuePair<string, int>(group.Key, group.Sum(pair => pair.Value)));
+
+        //}
+
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+            PictureBox clickedPictureBox = (PictureBox)sender;
+
+            PictureBox newPictureBox = new PictureBox
+            {
+                Dock = DockStyle.Fill,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Image = clickedPictureBox.Image
+            };
+
+            Controls.Add(newPictureBox);
+
+            newPictureBox.BringToFront();
+            btn_startMapReduce.BringToFront();
+        }
+
+        private static Random rand = new Random();
+
+        private static Bitmap GenerateImage(int height, int width)
+        {
+            Bitmap bitmap = new Bitmap(width, height);
+
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                using (Brush brush = new SolidBrush(Color.FromArgb(row * 50, col * 50, (row + col) * 30)))
+                int baseRed = rand.Next(256);
+                int baseGreen = rand.Next(256);
+                int baseBlue = rand.Next(256);
+
+                for (int i = 0; i < height; i++)
                 {
-                    g.FillRectangle(brush, 0, 0, bitmap.Width, bitmap.Height);
+                    for (int j = 0; j < width; j++)
+                    {
+                        int variationRed = rand.Next(-128, 127);
+                        int variationGreen = rand.Next(-128, 127);
+                        int variationBlue = rand.Next(-128, 127);
+
+                        int currentRed = Clamp(baseRed + variationRed, 0, 255);
+                        int currentGreen = Clamp(baseGreen + variationGreen, 0, 255);
+                        int currentBlue = Clamp(baseBlue + variationBlue, 0, 255);
+
+                        using (Brush brush = new SolidBrush(Color.FromArgb(currentRed, currentGreen, currentBlue)))
+                        {
+                            g.FillRectangle(brush, j, i, 1, 1);
+                        }
+                    }
                 }
             }
+
             return bitmap;
+        }
+
+        private static int Clamp(int value, int min, int max)
+        {
+            return Math.Max(min, Math.Min(value, max));
         }
     }
 }

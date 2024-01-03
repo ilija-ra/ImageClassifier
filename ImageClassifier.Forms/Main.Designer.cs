@@ -69,6 +69,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.num_noImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.num_noImages.Location = new System.Drawing.Point(63, 57);
+            this.num_noImages.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
             this.num_noImages.Name = "num_noImages";
             this.num_noImages.Size = new System.Drawing.Size(263, 30);
             this.num_noImages.TabIndex = 2;

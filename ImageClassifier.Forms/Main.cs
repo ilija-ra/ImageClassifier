@@ -13,7 +13,8 @@ namespace ImageClassifier.Forms
             {
                 new ImageSize{ Id = 1, Size = "50x50" },
                 new ImageSize{ Id = 2, Size = "75x75" },
-                new ImageSize{ Id = 3, Size = "100x100" }
+                new ImageSize{ Id = 3, Size = "100x100" },
+                new ImageSize{ Id = 4, Size = "200x200" }
             };
 
             cb_imageSize.DisplayMember = "Size";
