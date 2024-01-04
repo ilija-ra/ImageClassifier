@@ -74,6 +74,9 @@
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MapReduce\MapReduceEnd.resx">
+      <DependentUpon>MapReduceEnd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapReduce\MapReduceStart.resx">
       <DependentUpon>MapReduceStart.cs</DependentUpon>
     </EmbeddedResource>

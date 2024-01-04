@@ -136,7 +136,10 @@
             this.Controls.Add(this.num_noImages);
             this.Controls.Add(this.noImages);
             this.Controls.Add(this.cb_imageSize);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(400, 400);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

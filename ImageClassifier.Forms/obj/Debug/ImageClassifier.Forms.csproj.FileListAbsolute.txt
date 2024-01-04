@@ -21,3 +21,4 @@ C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\bin\Debug\Ima
 C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\bin\Debug\ImageClassifier.Forms.pdb
 C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.exe
 C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.pdb
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Forms\obj\Debug\ImageClassifier.Forms.MapReduce.MapReduceEnd.resources

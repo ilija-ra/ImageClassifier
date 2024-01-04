@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace ImageClassifier.Forms.MapReduce
@@ -44,7 +43,6 @@ namespace ImageClassifier.Forms.MapReduce
             _numRows = numberOfImages;
 
             InitializeLayout();
-            findMostFrequentColor();
         }
 
         private void InitializeLayout()
@@ -55,8 +53,7 @@ namespace ImageClassifier.Forms.MapReduce
                 AutoScroll = true,
                 RowCount = _numRows,
                 ColumnCount = 1,
-                BackColor = Color.White,
-                Width = 125
+                Width = 73
             };
 
             Controls.Add(tableLayoutPanel);
@@ -70,8 +67,10 @@ namespace ImageClassifier.Forms.MapReduce
             {
                 PictureBox pictureBox = new PictureBox()
                 {
-                    Dock = DockStyle.Fill,
-                    SizeMode = PictureBoxSizeMode.Zoom
+                    Width = 50,
+                    Height = 50,
+                    Dock = DockStyle.Left,
+                    SizeMode = PictureBoxSizeMode.Normal
                 };
 
                 pictureBox.Click += PictureBox_Click;
@@ -83,6 +82,11 @@ namespace ImageClassifier.Forms.MapReduce
                 pictureBox.Image = generatedBitmap;
 
                 tableLayoutPanel.Controls.Add(pictureBox, 1, row);
+
+                if (row == 0)
+                {
+                    PictureBox_Click(pictureBox, new EventArgs());
+                }
             }
         }
 
@@ -100,6 +104,7 @@ namespace ImageClassifier.Forms.MapReduce
             Controls.Add(newPictureBox);
 
             newPictureBox.BringToFront();
+            btn_previousPage.BringToFront();
         }
 
         private static Bitmap GenerateImage(int height, int width)
@@ -140,30 +145,21 @@ namespace ImageClassifier.Forms.MapReduce
             return Math.Max(min, Math.Min(value, max));
         }
 
-        private void findMostFrequentColor()
+        private void btn_startMapReduce_Click(object sender, EventArgs e)
         {
-            foreach (var bitmap in _bitmaps)
+            if (_bitmaps.Count > 0)
             {
-                Dictionary<Color, int> colorCounts = new Dictionary<Color, int>();
-
-                for (int i = 0; i < bitmap.Width; i++)
-                {
-                    for (int j = 0; j < bitmap.Height; j++)
-                    {
-                        Color pixelColor = bitmap.GetPixel(i, j);
-
-                        if (colorCounts.ContainsKey(pixelColor))
-                            colorCounts[pixelColor]++;
-                        else
-                            colorCounts[pixelColor] = 1;
-                    }
-                }
-
-                Color mostFrequentColor = colorCounts.OrderByDescending(kvp => kvp.Value).First().Key;
-                bitmap.Tag = mostFrequentColor.Name;
-
-                Console.WriteLine($"Bitmap[{bitmap.Tag}], Most frequent color: " + mostFrequentColor.A + mostFrequentColor.R + mostFrequentColor.G + mostFrequentColor.B);
+                MapReduceEnd mapReduceEnd = new MapReduceEnd(_bitmaps);
+                mapReduceEnd.Show();
+                Hide();
             }
+        }
+
+        private void btn_previousPage_Click(object sender, EventArgs e)
+        {
+            Main main = new Main();
+            main.Show();
+            Hide();
         }
     }
 }
