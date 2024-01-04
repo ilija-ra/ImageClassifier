@@ -33,6 +33,7 @@
             this.num_noImages = new System.Windows.Forms.NumericUpDown();
             this.imageSize = new System.Windows.Forms.Label();
             this.btn_generateImages = new System.Windows.Forms.Button();
+            this.valerr_numberOfImages = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.num_noImages)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,9 +42,10 @@
             this.cb_imageSize.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_imageSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_imageSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cb_imageSize.FormattingEnabled = true;
-            this.cb_imageSize.Location = new System.Drawing.Point(63, 160);
+            this.cb_imageSize.Location = new System.Drawing.Point(63, 166);
             this.cb_imageSize.Name = "cb_imageSize";
             this.cb_imageSize.Size = new System.Drawing.Size(263, 33);
             this.cb_imageSize.TabIndex = 0;
@@ -70,13 +72,23 @@
             this.num_noImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.num_noImages.Location = new System.Drawing.Point(63, 57);
             this.num_noImages.Maximum = new decimal(new int[] {
-            200,
+            100000,
             0,
             0,
             0});
+            this.num_noImages.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
             this.num_noImages.Name = "num_noImages";
             this.num_noImages.Size = new System.Drawing.Size(263, 30);
             this.num_noImages.TabIndex = 2;
+            this.num_noImages.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // imageSize
             // 
@@ -85,7 +97,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageSize.AutoSize = true;
             this.imageSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.imageSize.Location = new System.Drawing.Point(139, 132);
+            this.imageSize.Location = new System.Drawing.Point(139, 138);
             this.imageSize.Name = "imageSize";
             this.imageSize.Size = new System.Drawing.Size(106, 25);
             this.imageSize.TabIndex = 3;
@@ -95,7 +107,7 @@
             // 
             this.btn_generateImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_generateImages.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_generateImages.Location = new System.Drawing.Point(128, 265);
+            this.btn_generateImages.Location = new System.Drawing.Point(128, 251);
             this.btn_generateImages.Name = "btn_generateImages";
             this.btn_generateImages.Size = new System.Drawing.Size(130, 47);
             this.btn_generateImages.TabIndex = 4;
@@ -103,11 +115,22 @@
             this.btn_generateImages.UseVisualStyleBackColor = true;
             this.btn_generateImages.Click += new System.EventHandler(this.btn_generateImages_Click);
             // 
+            // valerr_numberOfImages
+            // 
+            this.valerr_numberOfImages.AutoSize = true;
+            this.valerr_numberOfImages.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.valerr_numberOfImages.ForeColor = System.Drawing.Color.Red;
+            this.valerr_numberOfImages.Location = new System.Drawing.Point(50, 90);
+            this.valerr_numberOfImages.Name = "valerr_numberOfImages";
+            this.valerr_numberOfImages.Size = new System.Drawing.Size(0, 25);
+            this.valerr_numberOfImages.TabIndex = 5;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 353);
+            this.Controls.Add(this.valerr_numberOfImages);
             this.Controls.Add(this.btn_generateImages);
             this.Controls.Add(this.imageSize);
             this.Controls.Add(this.num_noImages);
@@ -131,5 +154,6 @@
         private System.Windows.Forms.NumericUpDown num_noImages;
         private System.Windows.Forms.Label imageSize;
         private System.Windows.Forms.Button btn_generateImages;
+        private System.Windows.Forms.Label valerr_numberOfImages;
     }
 }

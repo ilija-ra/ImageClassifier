@@ -1,0 +1,5 @@
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net5.0-windows\ImageClassifier.Library.csproj.AssemblyReference.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net5.0-windows\ImageClassifier.Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net5.0-windows\ImageClassifier.Library.AssemblyInfoInputs.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net5.0-windows\ImageClassifier.Library.AssemblyInfo.cs
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net5.0-windows\ImageClassifier.Library.csproj.CoreCompileInputs.cache

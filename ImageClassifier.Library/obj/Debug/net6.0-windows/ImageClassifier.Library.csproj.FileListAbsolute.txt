@@ -1,0 +1,12 @@
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\bin\Debug\net6.0-windows\ImageClassifier.Library.deps.json
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\bin\Debug\net6.0-windows\ImageClassifier.Library.dll
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\bin\Debug\net6.0-windows\ImageClassifier.Library.pdb
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.csproj.AssemblyReference.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.AssemblyInfoInputs.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.AssemblyInfo.cs
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.csproj.CoreCompileInputs.cache
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.dll
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\refint\ImageClassifier.Library.dll
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ImageClassifier.Library.pdb
+C:\GithubRepositoriesFaculty\ImageClassifier\ImageClassifier.Library\obj\Debug\net6.0-windows\ref\ImageClassifier.Library.dll

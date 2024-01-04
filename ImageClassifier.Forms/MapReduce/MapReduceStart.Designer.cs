@@ -33,9 +33,11 @@
             // 
             // btn_startMapReduce
             // 
+            this.btn_startMapReduce.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btn_startMapReduce.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btn_startMapReduce.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.btn_startMapReduce.Location = new System.Drawing.Point(0, 491);
+            this.btn_startMapReduce.Margin = new System.Windows.Forms.Padding(0);
             this.btn_startMapReduce.Name = "btn_startMapReduce";
             this.btn_startMapReduce.Size = new System.Drawing.Size(717, 62);
             this.btn_startMapReduce.TabIndex = 1;
