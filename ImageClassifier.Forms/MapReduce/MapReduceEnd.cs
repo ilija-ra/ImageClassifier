@@ -1,243 +1,177 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ImageClassifier.Forms.MapReduce
 {
     public partial class MapReduceEnd : Form
     {
-        private readonly int _fifthPart;
+        // Simulate parallel processing with 5 servers
+        private const int NUMSERVERS = 5;
         private readonly List<Bitmap> _bitmaps = new List<Bitmap>();
 
-        //used in SplitPhase
-        private List<Color> _serverOne = new List<Color>();
-        private List<Color> _serverTwo = new List<Color>();
-        private List<Color> _serverThree = new List<Color>();
-        private List<Color> _serverFour = new List<Color>();
-        private List<Color> _serverFive = new List<Color>();
-
-        //used in MapPhase
-        private Dictionary<Color, int> _serverOneCounts = new Dictionary<Color, int>();
-        private Dictionary<Color, int> _serverTwoCounts = new Dictionary<Color, int>();
-        private Dictionary<Color, int> _serverThreeCounts = new Dictionary<Color, int>();
-        private Dictionary<Color, int> _serverFourCounts = new Dictionary<Color, int>();
-        private Dictionary<Color, int> _serverFiveCounts = new Dictionary<Color, int>();
-
-
-        //used in ShuffleSortPhase
-        private List<Dictionary<Color, int>> _groupedServerCounts = new List<Dictionary<Color, int>>();
-
-        public MapReduceEnd(List<Bitmap> bitmaps)
+        public MapReduceEnd(List<Bitmap> bitmaps = null)
         {
             InitializeComponent();
 
             _bitmaps = bitmaps;
-            _fifthPart = bitmaps[0].Height / 5;
 
             MapReduceAlgorithm();
         }
 
         private void MapReduceAlgorithm()
         {
-            foreach (var bitmap in _bitmaps)
+            if (_bitmaps.Count > 0)
             {
-                SplitPhase(bitmap);
-                MapPhase();
-                ShuffleSortPhase();
-                //ReducePhase(_shuffleSortResult);
+                var partialResults = new List<Dictionary<Bitmap, Dictionary<Color, int>>>();
+
+                // Divide the images and distribute to servers
+                List<List<Bitmap>> numberOfImagesPerServer = DivideImages(_bitmaps);
+
+                // Start parallel processing
+                Parallel.For(0, NUMSERVERS, serverIndex =>
+                {
+                    Dictionary<Bitmap, Dictionary<Color, int>> partialResult = MapPhase(numberOfImagesPerServer[serverIndex]);
+                    lock (partialResults)
+                    {
+                        partialResults.Add(partialResult);
+                    }
+                });
+
+                // Combine results from all servers
+                Dictionary<Bitmap, string> resultMap = ReducePhase(partialResults);
+
+                // Display results or perform further actions
+                DisplayResults(resultMap);
             }
         }
 
-        private void SplitPhase(Bitmap bitmap)
+        private List<List<Bitmap>> DivideImages(List<Bitmap> images)
         {
-            for (int i = 0; i < _fifthPart; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    Color pixelColor = bitmap.GetPixel(i, j);
+            int imagesPerPart = images.Count / NUMSERVERS;
+            List<List<Bitmap>> imageParts = new List<List<Bitmap>>();
 
-                    _serverOne.Add(pixelColor);
-                }
+            for (int i = 0; i < NUMSERVERS; i++)
+            {
+                int startIndex = i * imagesPerPart;
+                int endIndex = (i == NUMSERVERS - 1) ? images.Count : (i + 1) * imagesPerPart;
+
+                List<Bitmap> part = images.GetRange(startIndex, endIndex - startIndex);
+                imageParts.Add(part);
             }
 
-            for (int i = _fifthPart; i < _fifthPart * 2; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    Color pixelColor = bitmap.GetPixel(i, j);
-
-                    _serverTwo.Add(pixelColor);
-                }
-            }
-
-            for (int i = _fifthPart * 2; i < _fifthPart * 3; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    Color pixelColor = bitmap.GetPixel(i, j);
-
-                    _serverThree.Add(pixelColor);
-                }
-            }
-
-            for (int i = _fifthPart * 3; i < _fifthPart * 4; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    Color pixelColor = bitmap.GetPixel(i, j);
-
-                    _serverFour.Add(pixelColor);
-                }
-            }
-
-            for (int i = _fifthPart * 4; i < bitmap.Height; i++)
-            {
-                for (int j = 0; j < bitmap.Width; j++)
-                {
-                    Color pixelColor = bitmap.GetPixel(i, j);
-
-                    _serverFive.Add(pixelColor);
-                }
-            }
+            return imageParts;
         }
 
-        private void MapPhase()
+        private Dictionary<Bitmap, Dictionary<Color, int>> MapPhase(List<Bitmap> imagePart)
         {
-            foreach (var pixelColor in _serverOne)
+            var resultMap = new Dictionary<Bitmap, Dictionary<Color, int>>();
+
+            foreach (var bitmap in imagePart)
             {
-                if (_serverOneCounts.ContainsKey(pixelColor))
-                    _serverOneCounts[pixelColor]++;
-                else
-                    _serverOneCounts[pixelColor] = 1;
+                Dictionary<Color, int> colorCount = new Dictionary<Color, int>();
+
+                // Count occurrences of each color in the picture part
+                for (int i = 0; i < bitmap.Width; i++)
+                {
+                    for (int j = 0; j < bitmap.Height; j++)
+                    {
+                        Color pixelColor = bitmap.GetPixel(i, j);
+                        if (colorCount.ContainsKey(pixelColor))
+                            colorCount[pixelColor]++;
+                        else
+                            colorCount[pixelColor] = 1;
+                    }
+                }
+
+                resultMap.Add(bitmap, colorCount);
             }
 
-            foreach (var pixelColor in _serverTwo)
-            {
-                if (_serverTwoCounts.ContainsKey(pixelColor))
-                    _serverTwoCounts[pixelColor]++;
-                else
-                    _serverTwoCounts[pixelColor] = 1;
-            }
-
-            foreach (var pixelColor in _serverThree)
-            {
-                if (_serverThreeCounts.ContainsKey(pixelColor))
-                    _serverThreeCounts[pixelColor]++;
-                else
-                    _serverThreeCounts[pixelColor] = 1;
-            }
-
-            foreach (var pixelColor in _serverFour)
-            {
-                if (_serverFourCounts.ContainsKey(pixelColor))
-                    _serverFourCounts[pixelColor]++;
-                else
-                    _serverFourCounts[pixelColor] = 1;
-            }
-
-            foreach (var pixelColor in _serverFive)
-            {
-                if (_serverFiveCounts.ContainsKey(pixelColor))
-                    _serverFiveCounts[pixelColor]++;
-                else
-                    _serverFiveCounts[pixelColor] = 1;
-            }
-
-            _groupedServerCounts.Add(_serverOneCounts);
-            _groupedServerCounts.Add(_serverTwoCounts);
-            _groupedServerCounts.Add(_serverThreeCounts);
-            _groupedServerCounts.Add(_serverFourCounts);
-            _groupedServerCounts.Add(_serverFiveCounts);
+            return resultMap;
         }
 
-        private void ShuffleSortPhase()
+        private Dictionary<Bitmap, string> ReducePhase(List<Dictionary<Bitmap, Dictionary<Color, int>>> partialResults)
         {
-            // Combine color counts from all servers into a single dictionary
-            Dictionary<Color, int> combinedCounts = new Dictionary<Color, int>();
+            Dictionary<Bitmap, string> resultMap = new Dictionary<Bitmap, string>();
 
-            foreach (var serverCounts in _groupedServerCounts)
+            foreach (var partialResult in partialResults)
             {
-                foreach (var kvp in serverCounts)
+                // You may need to implement your logic to combine results from different servers
+                // This example assumes that each server returns the dominant color for its part
+                foreach (var kvp in partialResult)
                 {
-                    if (combinedCounts.ContainsKey(kvp.Key))
-                        combinedCounts[kvp.Key] += kvp.Value;
-                    else
-                        combinedCounts[kvp.Key] = kvp.Value;
+                    Color dominantColor = kvp.Value.OrderByDescending(x => x.Value).First().Key;
+
+                    // Assign the dominant color to the corresponding bitmap
+                    resultMap.Add(kvp.Key, ColorTranslator.ToHtml(dominantColor));
                 }
             }
 
-            // Sort the combined counts by the color key
-            var sortedCombinedCounts = combinedCounts.OrderByDescending(c => c.Value).ToList();
-
-            label1.Text += "\n" + $"Color: {sortedCombinedCounts[0].Key.Name}, Appereances: {sortedCombinedCounts[0].Value}";
+            return resultMap;
         }
 
-        //private void ReducePhase(List<KeyValuePair<Color, int>> shuffleSortResult)
-        //{
-        //Color mostFrequentColor = shuffleSortResult.OrderByDescending(kvp => kvp).First();
-        //bitmap.Tag = mostFrequentColor.Name;
-        //Console.WriteLine($"Final color: {mostFrequentColor.Name}");
-        //}
+        private void DisplayResults(Dictionary<Bitmap, string> resultMap)
+        {
+            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true
+            };
 
-        //private void findMostFrequentColor()
-        //{
-        //    foreach (var bitmap in _bitmaps)
-        //    {
-        //        Dictionary<Color, int> colorCounts = new Dictionary<Color, int>();
+            int colCount = 4;
+            int rowCount = (int)Math.Ceiling((double)resultMap.Count / colCount);
 
-        //        for (int i = 0; i < bitmap.Width; i++)
-        //        {
-        //            for (int j = 0; j < bitmap.Height; j++)
-        //            {
-        //                Color pixelColor = bitmap.GetPixel(i, j);
+            tableLayoutPanel.RowCount = rowCount * 2; // Account for 2 rows per picture (image + label)
+            tableLayoutPanel.ColumnCount = colCount;
 
-        //                if (colorCounts.ContainsKey(pixelColor))
-        //                    colorCounts[pixelColor]++;
-        //                else
-        //                    colorCounts[pixelColor] = 1;
-        //            }
-        //        }
+            int rowIndex = 0;
+            int colIndex = 0;
 
-        //        Color mostFrequentColor = colorCounts.OrderByDescending(kvp => kvp.Value).First().Key;
-        //        bitmap.Tag = mostFrequentColor.Name;
+            int pictureWidth = 122;
+            int pictureHeight = 122;
 
-        //        Console.WriteLine($"Bitmap[{bitmap.Tag}], Most frequent color: " + mostFrequentColor.A + mostFrequentColor.R + mostFrequentColor.G + mostFrequentColor.B);
-        //    }
-        //}
+            foreach (var kvp in resultMap)
+            {
+                // Create PictureBox for the bitmap
+                PictureBox pictureBox = new PictureBox
+                {
+                    Image = kvp.Key,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = pictureWidth,
+                    Height = pictureHeight
+                };
 
-        //private void calculateAverageColor()
-        //{
-        //    foreach (var bitmap in _bitmaps)
-        //    {
-        //        int totalPixels = bitmap.Width * bitmap.Height;
-        //        int totalRed = 0, totalGreen = 0, totalBlue = 0;
+                // Create Label for the color name
+                Label label = new Label
+                {
+                    Text = kvp.Value,
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
 
-        //        for (int i = 0; i < bitmap.Width; i++)
-        //        {
-        //            for (int j = 0; j < bitmap.Height; j++)
-        //            {
-        //                Color pixelColor = bitmap.GetPixel(i, j);
-        //                totalRed += pixelColor.R;
-        //                totalGreen += pixelColor.G;
-        //                totalBlue += pixelColor.B;
-        //            }
-        //        }
+                // Add PictureBox and Label to the TableLayoutPanel at the specified row and column
+                tableLayoutPanel.Controls.Add(pictureBox, colIndex, rowIndex);
+                tableLayoutPanel.Controls.Add(label, colIndex, rowIndex + 1); // Place the label below the picture
 
-        //        // Calculate average values for each channel
-        //        int averageRed = totalRed / totalPixels;
-        //        int averageGreen = totalGreen / totalPixels;
-        //        int averageBlue = totalBlue / totalPixels;
+                colIndex++;
+                if (colIndex >= colCount)
+                {
+                    colIndex = 0;
+                    rowIndex += 2; // Move to the next row (accounting for 2 rows per picture)
+                }
+            }
 
-        //        // Create the average color
-        //        Color averageColor = Color.FromArgb(averageRed, averageGreen, averageBlue);
+            // Add the TableLayoutPanel to your form or another container control
+            Controls.Add(tableLayoutPanel);
+        }
 
-        //        // Assign the average color to the Tag property
-        //        bitmap.Tag = averageColor.Name;
-
-        //        Console.WriteLine($"Bitmap[{bitmap.Tag}], Average color: " + averageColor);
-        //    }
-        //}
+        private void btn_startAgain_Click(object sender, EventArgs e)
+        {
+            Main main = new Main();
+            main.Show();
+            Hide();
+        }
     }
 }
