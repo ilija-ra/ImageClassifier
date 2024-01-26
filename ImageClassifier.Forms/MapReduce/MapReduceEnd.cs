@@ -9,8 +9,7 @@ namespace ImageClassifier.Forms.MapReduce
 {
     public partial class MapReduceEnd : Form
     {
-        // Simulate parallel processing with 5 servers
-        private const int NUMSERVERS = 5;
+        private const int NUM_SERVERS = 5;
         private const int COL_COUNT = 4;
         private const int PICTURE_DIM = 122;
         private readonly List<Bitmap> _bitmaps = new List<Bitmap>();
@@ -34,7 +33,7 @@ namespace ImageClassifier.Forms.MapReduce
                 List<List<Bitmap>> numberOfImagesPerServer = DivideImages(_bitmaps);
 
                 // Start parallel processing
-                Parallel.For(0, NUMSERVERS, serverIndex =>
+                Parallel.For(0, NUM_SERVERS, serverIndex =>
                 {
                     Dictionary<Bitmap, Dictionary<Color, int>> partialResult = MapPhase(numberOfImagesPerServer[serverIndex]);
                     lock (partialResults)
@@ -52,13 +51,13 @@ namespace ImageClassifier.Forms.MapReduce
 
         private List<List<Bitmap>> DivideImages(List<Bitmap> images)
         {
-            int imagesPerPart = images.Count / NUMSERVERS;
+            int imagesPerPart = images.Count / NUM_SERVERS;
             List<List<Bitmap>> imageParts = new List<List<Bitmap>>();
 
-            for (int i = 0; i < NUMSERVERS; i++)
+            for (int i = 0; i < NUM_SERVERS; i++)
             {
                 int startIndex = i * imagesPerPart;
-                int endIndex = (i == NUMSERVERS - 1) ? images.Count : (i + 1) * imagesPerPart;
+                int endIndex = (i == NUM_SERVERS - 1) ? images.Count : (i + 1) * imagesPerPart;
 
                 List<Bitmap> part = images.GetRange(startIndex, endIndex - startIndex);
                 imageParts.Add(part);
