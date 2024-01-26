@@ -35,31 +35,9 @@ namespace ImageClassifier.Forms
         {
             if (validateForm())
             {
-                //ProgressBar progressBar = new ProgressBar()
-                //{
-                //    Name = "progressBar",
-                //    Height = 23,
-                //    Width = 358,
-                //    Location = new Point(12, 318),
-                //    Step = 5,
-                //    Value = 0,
-                //    Visible = true
-                //};
-
-                //// Simulate some progress (for demonstration purposes)
-                //for (int i = 0; i <= 100; i += 5)
-                //{
-                //    System.Threading.Thread.Sleep(100); // Simulate work being done
-                //    progressBar.PerformStep();
-                //    Application.DoEvents(); // Allow the UI to update
-                //}
-
-                //if (progressBar.Value == 100)
-                //{
                 MapReduceStart mapReduceStart = new MapReduceStart(Convert.ToInt32(num_noImages.Value), Convert.ToInt32(cb_imageSize.SelectedValue));
                 mapReduceStart.Show();
                 Hide();
-                //}
             }
         }
 

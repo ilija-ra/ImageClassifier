@@ -11,6 +11,8 @@ namespace ImageClassifier.Forms.MapReduce
     {
         // Simulate parallel processing with 5 servers
         private const int NUMSERVERS = 5;
+        private const int COL_COUNT = 4;
+        private const int PICTURE_DIM = 122;
         private readonly List<Bitmap> _bitmaps = new List<Bitmap>();
 
         public MapReduceEnd(List<Bitmap> bitmaps = null)
@@ -42,10 +44,9 @@ namespace ImageClassifier.Forms.MapReduce
                 });
 
                 // Combine results from all servers
-                Dictionary<Bitmap, string> resultMap = ReducePhase(partialResults);
+                Dictionary<Bitmap, string> result = ReducePhase(partialResults);
 
-                // Display results or perform further actions
-                DisplayResults(resultMap);
+                DisplayResults(result);
             }
         }
 
@@ -99,8 +100,6 @@ namespace ImageClassifier.Forms.MapReduce
 
             foreach (var partialResult in partialResults)
             {
-                // You may need to implement your logic to combine results from different servers
-                // This example assumes that each server returns the dominant color for its part
                 foreach (var kvp in partialResult)
                 {
                     Color dominantColor = kvp.Value.OrderByDescending(x => x.Value).First().Key;
@@ -121,17 +120,13 @@ namespace ImageClassifier.Forms.MapReduce
                 AutoScroll = true
             };
 
-            int colCount = 4;
-            int rowCount = (int)Math.Ceiling((double)resultMap.Count / colCount);
+            int rowCount = (int)Math.Ceiling((double)resultMap.Count / COL_COUNT);
 
             tableLayoutPanel.RowCount = rowCount * 2; // Account for 2 rows per picture (image + label)
-            tableLayoutPanel.ColumnCount = colCount;
+            tableLayoutPanel.ColumnCount = COL_COUNT;
 
             int rowIndex = 0;
             int colIndex = 0;
-
-            int pictureWidth = 122;
-            int pictureHeight = 122;
 
             foreach (var kvp in resultMap)
             {
@@ -140,8 +135,8 @@ namespace ImageClassifier.Forms.MapReduce
                 {
                     Image = kvp.Key,
                     SizeMode = PictureBoxSizeMode.Zoom,
-                    Width = pictureWidth,
-                    Height = pictureHeight
+                    Width = PICTURE_DIM,
+                    Height = PICTURE_DIM
                 };
 
                 // Create Label for the color name
@@ -156,14 +151,14 @@ namespace ImageClassifier.Forms.MapReduce
                 tableLayoutPanel.Controls.Add(label, colIndex, rowIndex + 1); // Place the label below the picture
 
                 colIndex++;
-                if (colIndex >= colCount)
+
+                if (colIndex >= COL_COUNT)
                 {
                     colIndex = 0;
                     rowIndex += 2; // Move to the next row (accounting for 2 rows per picture)
                 }
             }
 
-            // Add the TableLayoutPanel to your form or another container control
             Controls.Add(tableLayoutPanel);
         }
 
