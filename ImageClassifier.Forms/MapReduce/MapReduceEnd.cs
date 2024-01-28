@@ -121,7 +121,7 @@ namespace ImageClassifier.Forms.MapReduce
 
             int rowCount = (int)Math.Ceiling((double)resultMap.Count / COL_COUNT);
 
-            tableLayoutPanel.RowCount = rowCount * 2; // Account for 2 rows per picture (image + label)
+            tableLayoutPanel.RowCount = rowCount * 2; // Account for 2 rows per picture (image + textbox)
             tableLayoutPanel.ColumnCount = COL_COUNT;
 
             int rowIndex = 0;
@@ -138,19 +138,21 @@ namespace ImageClassifier.Forms.MapReduce
                     Height = PICTURE_DIM
                 };
 
-                // Create Label for the color name
-                Label label = new Label
+                // Create TextBox for the color name
+                TextBox textBox = new TextBox
                 {
                     Text = kvp.Value,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    ReadOnly = true,
+                    Multiline = true,
+                    TextAlign = HorizontalAlignment.Center,
+                    Dock = DockStyle.Fill
                 };
 
-                // Add PictureBox and Label to the TableLayoutPanel at the specified row and column
+                // Add PictureBox and TextBox to the TableLayoutPanel at the specified row and column
                 tableLayoutPanel.Controls.Add(pictureBox, colIndex, rowIndex);
-                tableLayoutPanel.Controls.Add(label, colIndex, rowIndex + 1); // Place the label below the picture
+                tableLayoutPanel.Controls.Add(textBox, colIndex, rowIndex + 1); // Place the textbox below the picture
 
                 colIndex++;
-
                 if (colIndex >= COL_COUNT)
                 {
                     colIndex = 0;
